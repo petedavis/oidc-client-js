@@ -39,7 +39,12 @@ export default class UrlUtility {
 
         var counter = 0;
         while (m = regex.exec(value)) {
-            params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            var key = decodeURIComponent(m[1]);
+
+            if (key.substr(0, 1) === '/')
+                key = key.substr(1);
+
+            params[key] = decodeURIComponent(m[2]);
             if (counter++ > 50) {
                 Log.error("response exceeded expected number of parameters", value);
                 return {
